@@ -15,7 +15,9 @@ function App() {
       {scanning && 
         <MRZScanner
           onScanned={(results)=>(console.log(results))}
-        ></MRZScanner>
+        >
+          <button className='close-button' onClick={()=>setScanning(false)}>Close</button>
+        </MRZScanner>
       }
     </div>
   )
