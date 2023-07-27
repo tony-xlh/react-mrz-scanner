@@ -1,0 +1,21 @@
+diff --git a/node_modules/dynamsoft-label-recognizer/package.json b/node_modules/dynamsoft-label-recognizer/package.json
+index 7915ed8..c034282 100755
+--- a/node_modules/dynamsoft-label-recognizer/package.json
++++ b/node_modules/dynamsoft-label-recognizer/package.json
+@@ -17,8 +17,14 @@
+   "main": "./dist/dlr.js",
+   "module": "./dist/dlr.esm.js",
+   "exports": {
+-    "import": "./dist/dlr.esm.js",
+-    "require": "./dist/dlr.js"
++    "import": {
++      "types": "./dist/types/dlr.d.ts",
++      "default": "./dist/dlr.esm.js"
++    },
++    "require": {
++      "types": "./dist/types/dlr.d.ts",
++      "default": "./dist/dlr.js"
++    }
+   },
+   "sideEffects": false,
+   "types": "dist/types/dlr.d.ts",
