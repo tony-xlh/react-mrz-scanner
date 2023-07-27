@@ -13,7 +13,9 @@ function App() {
         </>
       }
       {scanning && 
-        <MRZScanner></MRZScanner>
+        <MRZScanner
+          onScanned={(results)=>(console.log(results))}
+        ></MRZScanner>
       }
     </div>
   )

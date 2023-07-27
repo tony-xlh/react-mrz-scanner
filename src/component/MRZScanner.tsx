@@ -1,17 +1,34 @@
-import React, { MutableRefObject, useEffect, useRef } from 'react';
+import React, { MutableRefObject, ReactNode, useEffect, useRef } from 'react';
 import { CameraEnhancer, DrawingItem } from 'dynamsoft-camera-enhancer';
-import { LabelRecognizer } from 'dynamsoft-label-recognizer';
+import { DLRLineResult, LabelRecognizer } from 'dynamsoft-label-recognizer';
 import './MRZScanner.css';
-CameraEnhancer.engineResourcePath = "https://cdn.jsdelivr.net/npm/dynamsoft-camera-enhancer@3.3.4/dist/";
-LabelRecognizer.engineResourcePath = "https://cdn.jsdelivr.net/npm/dynamsoft-label-recognizer@2.2.30/dist/";
 
-const MRZScanner = (): React.ReactElement => {
+const defaultDCEEngineResourcePath = "https://cdn.jsdelivr.net/npm/dynamsoft-camera-enhancer@3.3.4/dist/";
+const defaultDLRengineResourcePath = "https://cdn.jsdelivr.net/npm/dynamsoft-label-recognizer@2.2.30/dist/";
+
+export interface ScannerProps {
+  license?: string;
+  dceEngineResourcePath?: string;
+  dlrEngineResourcePath?: string;
+  children?: ReactNode;
+  onInitialized?: (dce:CameraEnhancer,dlr:LabelRecognizer) => void;
+  onScanned: (results:DLRLineResult[]) => void;
+}
+
+const MRZScanner = (props:ScannerProps): React.ReactElement => {
   const dce = useRef<CameraEnhancer|null>(null);
   const dlr = useRef<LabelRecognizer|null>(null);
+  const licenseSet = useRef(false);
   const container: MutableRefObject<HTMLDivElement|null> = useRef(null);
   useEffect((): any => {
     const init = async () => {
       try{
+        if (LabelRecognizer.isWasmLoaded() === false && licenseSet.current === false) {
+          CameraEnhancer.engineResourcePath = props.dceEngineResourcePath ?? defaultDCEEngineResourcePath;
+          LabelRecognizer.engineResourcePath = props.dlrEngineResourcePath ?? defaultDLRengineResourcePath;
+          LabelRecognizer.license = props.license ?? "DLS2eyJoYW5kc2hha2VDb2RlIjoiMjAwMDAxLTE2NDk4Mjk3OTI2MzUiLCJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSIsInNlc3Npb25QYXNzd29yZCI6IndTcGR6Vm05WDJrcEQ5YUoifQ==";
+          licenseSet.current = true;
+        }
         LabelRecognizer.onResourcesLoadStarted = () => { console.log('load started...'); }
         LabelRecognizer.onResourcesLoadProgress = (resourcesPath, progress)=>{console.log("Loading resources progress: " + progress!.loaded + "/" + progress!.total);};
         LabelRecognizer.onResourcesLoaded = async () => { console.log('load ended...');}
@@ -23,7 +40,7 @@ const MRZScanner = (): React.ReactElement => {
         await dce.current.setUIElement(container.current as HTMLDivElement);
         dce.current.setVideoFit("cover");
         dlr.current.onMRZRead = async (txt, results) => {
-          console.log("MRZ results: \n", txt, "\n", results);
+          props.onScanned(results);
         }
         await dlr.current.startScanning(true);
       } catch(ex:any) {
@@ -52,6 +69,7 @@ const MRZScanner = (): React.ReactElement => {
         <select className="dce-sel-camera"></select>
         <select className="dce-sel-resolution"></select>
       </div>
+      {props.children}
     </div>
   );
 }
