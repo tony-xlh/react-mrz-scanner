@@ -1,27 +1,41 @@
 import React, { MutableRefObject, useEffect, useRef } from 'react';
-import { CameraEnhancer } from 'dynamsoft-camera-enhancer';
+import { CameraEnhancer, DrawingItem } from 'dynamsoft-camera-enhancer';
+import { LabelRecognizer } from 'dynamsoft-label-recognizer';
 import './MRZScanner.css';
+CameraEnhancer.engineResourcePath = "https://cdn.jsdelivr.net/npm/dynamsoft-camera-enhancer@3.3.4/dist/";
+LabelRecognizer.engineResourcePath = "https://cdn.jsdelivr.net/npm/dynamsoft-label-recognizer@2.2.30/dist/";
 
 const MRZScanner = (): React.ReactElement => {
   const dce = useRef<CameraEnhancer|null>(null);
+  const dlr = useRef<LabelRecognizer|null>(null);
   const container: MutableRefObject<HTMLDivElement|null> = useRef(null);
   useEffect((): any => {
     const init = async () => {
-        try{
-            dce.current = await CameraEnhancer.createInstance();
-            await dce.current.setUIElement(container.current as HTMLDivElement);
-            dce.current.setVideoFit("cover");
-            dce.current.open(true);
-        } catch(ex:any) {
-            let errMsg: string;
-            if (ex.message.includes("network connection error")) {
-                errMsg = "Failed to connect to Dynamsoft License Server: network connection error. Check your Internet connection or contact Dynamsoft Support (support@dynamsoft.com) to acquire an offline license.";
-            } else {
-                errMsg = ex.message||ex;
-            }
-            console.error(errMsg);
-            alert(errMsg);
+      try{
+        LabelRecognizer.onResourcesLoadStarted = () => { console.log('load started...'); }
+        LabelRecognizer.onResourcesLoadProgress = (resourcesPath, progress)=>{console.log("Loading resources progress: " + progress!.loaded + "/" + progress!.total);};
+        LabelRecognizer.onResourcesLoaded = async () => { console.log('load ended...');}
+
+        dlr.current = await LabelRecognizer.createInstance();
+        dce.current = await CameraEnhancer.createInstance();
+        await dlr.current.setImageSource(dce.current, {resultsHighlightBaseShapes: DrawingItem});
+        await dlr.current.updateRuntimeSettingsFromString("video-mrz");
+        await dce.current.setUIElement(container.current as HTMLDivElement);
+        dce.current.setVideoFit("cover");
+        dlr.current.onMRZRead = async (txt, results) => {
+          console.log("MRZ results: \n", txt, "\n", results);
         }
+        await dlr.current.startScanning(true);
+      } catch(ex:any) {
+        let errMsg: string;
+        if (ex.message.includes("network connection error")) {
+          errMsg = "Failed to connect to Dynamsoft License Server: network connection error. Check your Internet connection or contact Dynamsoft Support (support@dynamsoft.com) to acquire an offline license.";
+        } else {
+          errMsg = ex.message||ex;
+        }
+        console.error(errMsg);
+        alert(errMsg);
+      }
     }
     init();
   }, []);
