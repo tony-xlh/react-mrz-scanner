@@ -4,7 +4,7 @@ import MRZScanner from './component/MRZScanner'
 import { useState } from 'react';
 
 function App() {
-  const [scanning, setScanning] = useState(true);
+  const [scanning, setScanning] = useState(false);
   const [MRZLineResults, setMRZLineResults] = useState<DLRLineResult[]>([]);
   const [showScanner, setShowScanner] = useState(false);
   const [showModal, setShowModal] = useState(false);
