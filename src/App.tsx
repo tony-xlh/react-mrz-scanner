@@ -14,6 +14,7 @@ function App() {
       }
       {scanning && 
         <MRZScanner
+          hideSelect={true}
           onScanned={(results)=>(console.log(results))}
         >
           <button className='close-button' onClick={()=>setScanning(false)}>Close</button>
