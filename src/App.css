@@ -3,3 +3,21 @@
   top: 0;
   right: 0;
 }
+
+.confirmation-modal {
+  position: absolute;
+  left: 50%;
+  max-width: 80%;
+  transform: translateX(-50%);
+  z-index: 99999;
+  background: #fff;
+  padding: 20px;
+  border: thick double black;
+  border-radius: 5px;
+  font-family: sans-serif;
+  top: 50px;  
+}
+
+.overflow {
+  overflow: auto;
+}
