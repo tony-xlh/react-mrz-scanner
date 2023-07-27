@@ -4,13 +4,17 @@ import MRZScanner from './component/MRZScanner'
 import { useState } from 'react';
 
 function App() {
-  const [scanning, setScanning] = useState(false);
+  const [scanning, setScanning] = useState(true);
   const [MRZLineResults, setMRZLineResults] = useState<DLRLineResult[]>([]);
+  const [showScanner, setShowScanner] = useState(false);
   const [showModal, setShowModal] = useState(false);
 
   const showConfirmationModal = (results:DLRLineResult[]) => {
-    setShowModal(true);
-    setMRZLineResults(results);
+    if (scanning === true) {
+      setScanning(false);
+      setShowModal(true);
+      setMRZLineResults(results);
+    }
   }
 
   const MRZString = () => {
@@ -27,26 +31,32 @@ function App() {
 
   const correct = () => {
     setShowModal(false);
-    setScanning(false);
+    setShowScanner(false);
   }
 
   const rescan = () => {
     setShowModal(false);
+    setScanning(true);
   }
 
+  const startScanner = () => {
+    setScanning(true);
+    setShowScanner(true);
+  }
   return (
     <div>
-      {!scanning &&
+      {!showScanner &&
         <>
           <h2>MRZ Scanner</h2>
-          <button onClick={()=>setScanning(true)}>Start Scanning MRZ</button>
+          <button onClick={()=>startScanner()}>Start Scanning MRZ</button>
           {MRZLineResults.length>0 &&
             <pre>{MRZString()}</pre>
           }
         </>
       }
-      {scanning && 
+      {showScanner && 
         <MRZScanner
+          scanning={scanning}
           hideSelect={true}
           onScanned={(results)=>(showConfirmationModal(results))}
         >

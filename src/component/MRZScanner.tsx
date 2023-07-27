@@ -12,6 +12,7 @@ export interface ScannerProps {
   dlrEngineResourcePath?: string;
   children?: ReactNode;
   hideSelect?: boolean;
+  scanning:boolean;
   onInitialized?: (dce:CameraEnhancer,dlr:LabelRecognizer) => void;
   onScanned: (results:DLRLineResult[]) => void;
 }
@@ -21,7 +22,7 @@ const MRZScanner = (props:ScannerProps): React.ReactElement => {
   const dlr = useRef<LabelRecognizer|null>(null);
   const licenseSet = useRef(false);
   const container: MutableRefObject<HTMLDivElement|null> = useRef(null);
-  useEffect((): any => {
+  useEffect(() => {
     const init = async () => {
       try{
         if (LabelRecognizer.isWasmLoaded() === false && licenseSet.current === false) {
@@ -43,7 +44,9 @@ const MRZScanner = (props:ScannerProps): React.ReactElement => {
         dlr.current.onMRZRead = async (txt, results) => {
           props.onScanned(results);
         }
-        await dlr.current.startScanning(true);
+        if (props.scanning) {
+          dlr.current.startScanning(true);
+        }
       } catch(ex:any) {
         let errMsg: string;
         if (ex.message.includes("network connection error")) {
@@ -57,6 +60,20 @@ const MRZScanner = (props:ScannerProps): React.ReactElement => {
     }
     init();
   }, []);
+
+  useEffect(() => {
+    if (dlr.current) {
+      if (props.scanning) {
+        if ((dlr.current as any)._bPauseScan) {
+          dlr.current.resumeScanning();
+        }else{
+          dlr.current.startScanning(true);
+        }
+      }else{
+        dlr.current.pauseScanning();
+      }
+    }
+  }, [props.scanning]);
 
   return (
     <div ref={container}>
