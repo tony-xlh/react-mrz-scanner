@@ -13,9 +13,8 @@ export default defineConfig({
     build: {
         lib: {
             entry: path.resolve(__dirname, 'src/index.ts'),
-            name: 'MRZScanner',
-            formats: ['es', 'umd'],
-            fileName: (format) => `MRZ-scanner.${format}.js`,
+            name: 'mrz-scanner',
+            fileName: `mrz-scanner`,
         },
         rollupOptions: {
             external: ['react', 'react-dom'],

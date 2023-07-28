@@ -13,17 +13,17 @@
   "files": [
     "dist"
   ],
-  "main": "./dist/MRZ-scanner.umd.js",
-  "module": "./dist/MRZ-scanner.es.js",
+  "main": "./dist/mrz-scanner.umd.js",
+  "module": "./dist/mrz-scanner.js",
   "types": "./dist/index.d.ts",
   "exports": {
     "import": {
-      "types": "./dist/types/index.d.ts",
-      "default": "./dist/MRZ-scanner.es.js"
+      "types": "./dist/index.d.ts",
+      "default": "./dist/mrz-scanner.js"
     },
     "require": {
-      "types": "./dist/types/index.d.ts",
-      "default": "./dist/MRZ-scanner.umd.js"
+      "types": "./dist/index.d.ts",
+      "default": "./dist/mrz-scanner.umd.js"
     }
   },
   "dependencies": {
