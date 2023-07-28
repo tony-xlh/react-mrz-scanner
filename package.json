@@ -1,7 +1,8 @@
 {
   "name": "react-mrz-scanner",
   "private": false,
-  "version": "0.0.0",
+  "version": "1.0.0",
+  "description": "A React component to scan MRZ on passports, visa cards, etc.",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -46,5 +47,25 @@
     "typescript": "^5.0.2",
     "vite": "^4.4.5",
     "vite-plugin-dts": "^3.3.1"
-  }
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/"
+  },
+  "repository": "https://github.com/tony-xlh/react-mrz-scanner",
+  "author": "xulihang <xulihanghai@gmail.com> (https://github.com/xulihang)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/tony-xlh/react-mrz-scanner/issues"
+  },
+  "homepage": "https://github.com/tony-xlh/react-mrz-scanner#readme",
+  "keywords": [
+    "mrz",
+    "id",
+    "passport",
+    "visa",
+    "ocr",
+    "text",
+    "recognition",
+    "dynamsoft"
+  ]
 }
