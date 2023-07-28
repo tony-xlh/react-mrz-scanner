@@ -63,6 +63,7 @@ function App() {
           {confirmed && MRZLineResults.length>0 &&
             <pre>{MRZString()}</pre>
           }
+          <div style={{marginTop:"20px"}}>Powered by <a target="_blank" href="https://www.dynamsoft.com/label-recognition/overview/">Dynamsoft Label Recognizer</a></div>
         </>
       }
       {showScanner && 
@@ -99,7 +100,6 @@ function App() {
           <button className="close-button" onClick={()=>stopScanner()}>Close</button>
         </MRZScanner>
       }
-      <div style={{marginTop:"20px"}}>Powered by <a target="_blank" href="https://www.dynamsoft.com/label-recognition/overview/">Dynamsoft Label Recognizer</a></div>
     </div>
   )
 }
