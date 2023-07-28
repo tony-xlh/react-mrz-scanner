@@ -1,6 +1,6 @@
 {
   "name": "react-mrz-scanner",
-  "private": true,
+  "private": false,
   "version": "0.0.0",
   "type": "module",
   "scripts": {
@@ -10,6 +10,22 @@
     "preview": "vite preview",
     "postinstall": "patch-package"
   },
+  "files": [
+    "dist"
+  ],
+  "main": "./dist/MRZ-scanner.umd.js",
+  "module": "./dist/MRZ-scanner.es.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    "import": {
+      "types": "./dist/types/index.d.ts",
+      "default": "./dist/MRZ-scanner.es.js"
+    },
+    "require": {
+      "types": "./dist/types/index.d.ts",
+      "default": "./dist/MRZ-scanner.umd.js"
+    }
+  },
   "dependencies": {
     "dynamsoft-camera-enhancer": "3.3.4",
     "dynamsoft-label-recognizer": "2.2.30",
@@ -17,6 +33,7 @@
     "react-dom": "^18.2.0"
   },
   "devDependencies": {
+    "@types/node": "^20.4.5",
     "@types/react": "^18.2.15",
     "@types/react-dom": "^18.2.7",
     "@typescript-eslint/eslint-plugin": "^6.0.0",
@@ -27,6 +44,7 @@
     "eslint-plugin-react-refresh": "^0.4.3",
     "patch-package": "^7.0.2",
     "typescript": "^5.0.2",
-    "vite": "^4.4.5"
+    "vite": "^4.4.5",
+    "vite-plugin-dts": "^3.3.1"
   }
 }
