@@ -4,7 +4,7 @@
   right: 0;
 }
 
-.confirmation-modal {
+.modal {
   position: absolute;
   left: 50%;
   max-width: 80%;
@@ -16,6 +16,10 @@
   border-radius: 5px;
   font-family: sans-serif;
   top: 50px;  
+}
+
+.progress {
+  width: 30%;
 }
 
 .overflow {
