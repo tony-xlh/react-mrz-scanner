@@ -45,6 +45,7 @@ function App() {
   }
 
   const startScanner = () => {
+    setShowConfirmation(false);
     setScanning(true);
     setShowScanner(true);
   }
