@@ -1,6 +1,7 @@
 import { DLRLineResult } from 'dynamsoft-label-recognizer';
-import './App.css'
-import { MRZScanner } from 'react-mrz-scanner'
+import './App.css';
+import { MRZScanner } from 'react-mrz-scanner';
+import '../node_modules/react-mrz-scanner/dist/style.css';
 import { useState } from 'react';
 
 function App() {
