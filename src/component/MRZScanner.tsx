@@ -58,7 +58,7 @@ const MRZScanner = (props:ScannerProps): React.ReactElement => {
         await dlr.current.updateRuntimeSettingsFromString("video-mrz");
         await dce.current.setUIElement(container.current as HTMLDivElement);
         dce.current.setVideoFit("cover");
-        dlr.current.onMRZRead = async (txt, results) => {
+        dlr.current.onMRZRead = async (_txt, results) => {
           props.onScanned(results);
         }
         if (props.scanning) {
@@ -76,6 +76,12 @@ const MRZScanner = (props:ScannerProps): React.ReactElement => {
       }
     }
     init();
+    return () => {
+      if (dlr.current && dce.current) {
+        dlr.current.destroyContext();
+        dce.current.dispose(true);
+      }
+    }
   }, []);
 
   useEffect(() => {
