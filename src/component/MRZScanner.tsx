@@ -15,6 +15,9 @@ export interface ScannerProps {
   scanning:boolean;
   onInitialized?: (dce:CameraEnhancer,dlr:LabelRecognizer) => void;
   onScanned: (results:DLRLineResult[]) => void;
+  onResourcesLoadStarted?: () => void;
+  onResourcesLoadProgress?: (resourcesPath:string, progress:{loaded: number; total: number;}) => void;
+  onResourcesLoaded?: () => void;
 }
 
 const MRZScanner = (props:ScannerProps): React.ReactElement => {
@@ -31,9 +34,23 @@ const MRZScanner = (props:ScannerProps): React.ReactElement => {
           LabelRecognizer.license = props.license ?? "DLS2eyJoYW5kc2hha2VDb2RlIjoiMjAwMDAxLTE2NDk4Mjk3OTI2MzUiLCJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSIsInNlc3Npb25QYXNzd29yZCI6IndTcGR6Vm05WDJrcEQ5YUoifQ==";
           licenseSet.current = true;
         }
-        LabelRecognizer.onResourcesLoadStarted = () => { console.log('load started...'); }
-        LabelRecognizer.onResourcesLoadProgress = (resourcesPath, progress)=>{console.log("Loading resources progress: " + progress!.loaded + "/" + progress!.total);};
-        LabelRecognizer.onResourcesLoaded = async () => { console.log('load ended...');}
+        LabelRecognizer.onResourcesLoadStarted = () => { 
+          if (props.onResourcesLoadStarted) {
+            props.onResourcesLoadStarted();
+          }
+        }
+        LabelRecognizer.onResourcesLoadProgress = (resourcesPath, progress)=>{
+          if (props.onResourcesLoadProgress) {
+            if (resourcesPath && progress) {
+              props.onResourcesLoadProgress(resourcesPath,progress);
+            }
+          }
+        };
+        LabelRecognizer.onResourcesLoaded = async () => { 
+          if (props.onResourcesLoaded) {
+            props.onResourcesLoaded();
+          }
+        }
 
         dlr.current = await LabelRecognizer.createInstance();
         dce.current = await CameraEnhancer.createInstance();
