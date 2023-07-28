@@ -45,6 +45,11 @@ function App() {
     setScanning(true);
     setShowScanner(true);
   }
+
+  const stopScanner = () => {
+    setScanning(false);
+    setShowScanner(false);
+  }
   return (
     <div>
       {!showScanner &&
@@ -59,7 +64,6 @@ function App() {
       {showScanner && 
         <MRZScanner
           scanning={scanning}
-          hideSelect={true}
           onResourcesLoadStarted={()=>setShowProgress(true)}
           onResourcesLoadProgress={(_resourcesPath,_progress)=>{
             const percent = (_progress.loaded/_progress.total*100).toFixed(2);
@@ -88,7 +92,7 @@ function App() {
               </div>
             </div>
           }
-          <button className="close-button" onClick={()=>setScanning(false)}>Close</button>
+          <button className="close-button" onClick={()=>stopScanner()}>Close</button>
         </MRZScanner>
       }
     </div>
