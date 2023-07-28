@@ -7,21 +7,31 @@
 .modal {
   position: absolute;
   left: 50%;
-  max-width: 80%;
+  top: 50px;
   transform: translateX(-50%);
   z-index: 99999;
   background: #fff;
-  padding: 20px;
+  padding: 10px;
   border: thick double black;
   border-radius: 5px;
   font-family: sans-serif;
-  top: 50px;  
 }
 
 .progress {
-  width: 30%;
+  width: 40%;
 }
 
-.overflow {
-  overflow: auto;
+.confirmation {
+  text-align: center;
+}
+
+@media screen and (max-device-width: 600px){
+  .confirmation {
+    width: 90%;
+  }
+}
+
+.confirmation pre {
+  white-space: break-spaces;
+  word-break: break-all;
 }

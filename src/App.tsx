@@ -77,9 +77,9 @@ function App() {
         >
           {showConfirmation && 
             <div className="confirmation modal">
-              <div className="overflow">
-                <pre>{MRZString()}</pre>
-              </div>
+              <pre>
+                {MRZString()}
+              </pre>
               <button onClick={()=>correct()}>Correct</button>
               <button onClick={()=>rescan()} >Rescan</button>
             </div>
