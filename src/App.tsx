@@ -10,9 +10,11 @@ function App() {
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [showProgress, setShowProgress] = useState(false);
   const [progress, setProgress] = useState(0);
+  const [confirmed, setConfirmed] = useState(false);
 
   const showConfirmationModal = (results:DLRLineResult[]) => {
     if (scanning === true) {
+      setConfirmed(false);
       setScanning(false);
       setShowConfirmation(true);
       setMRZLineResults(results);
@@ -32,6 +34,7 @@ function App() {
   }
 
   const correct = () => {
+    setConfirmed(true);
     setShowConfirmation(false);
     setShowScanner(false);
   }
@@ -56,7 +59,7 @@ function App() {
         <>
           <h2>MRZ Scanner</h2>
           <button onClick={()=>startScanner()}>Start Scanning MRZ</button>
-          {MRZLineResults.length>0 &&
+          {confirmed && MRZLineResults.length>0 &&
             <pre>{MRZString()}</pre>
           }
         </>
