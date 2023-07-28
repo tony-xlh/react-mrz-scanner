@@ -7,12 +7,12 @@ function App() {
   const [scanning, setScanning] = useState(false);
   const [MRZLineResults, setMRZLineResults] = useState<DLRLineResult[]>([]);
   const [showScanner, setShowScanner] = useState(false);
-  const [showModal, setShowModal] = useState(false);
+  const [showConfirmation, setShowConfirmation] = useState(false);
 
   const showConfirmationModal = (results:DLRLineResult[]) => {
     if (scanning === true) {
       setScanning(false);
-      setShowModal(true);
+      setShowConfirmation(true);
       setMRZLineResults(results);
     }
   }
@@ -30,12 +30,12 @@ function App() {
   }
 
   const correct = () => {
-    setShowModal(false);
+    setShowConfirmation(false);
     setShowScanner(false);
   }
 
   const rescan = () => {
-    setShowModal(false);
+    setShowConfirmation(false);
     setScanning(true);
   }
 
@@ -60,7 +60,7 @@ function App() {
           hideSelect={true}
           onScanned={(results)=>(showConfirmationModal(results))}
         >
-          {showModal && 
+          {showConfirmation && 
             <div className="confirmation-modal">
               <div className="overflow">
                 <pre>{MRZString()}</pre>
