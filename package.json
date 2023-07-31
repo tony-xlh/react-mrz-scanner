@@ -1,7 +1,7 @@
 {
   "name": "react-mrz-scanner",
   "private": false,
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A React component to scan MRZ on passports, visa cards, etc.",
   "type": "module",
   "scripts": {

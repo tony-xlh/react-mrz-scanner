@@ -64,6 +64,9 @@ const MRZScanner = (props:ScannerProps): React.ReactElement => {
         if (props.scanning) {
           dlr.current.startScanning(true);
         }
+        if (props.onInitialized) {
+          props.onInitialized(dce.current,dlr.current);
+        }
       } catch(ex:any) {
         let errMsg: string;
         if (ex.message.includes("network connection error")) {
